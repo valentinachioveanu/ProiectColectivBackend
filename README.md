@@ -19,3 +19,6 @@
 
 # Documentation
 - Rest API calls examples are in documentation/8x9_Calendar.postman_collection.json - just import it in Postman
+
+# Extra Info
+- Checks (Constraints) are not automatically updated by Hibernate - to add any new check, drop database and rerun app
