@@ -4,12 +4,13 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.Check;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "events")
 @Check(constraints = "start_date < end_date")
-public class Event implements Identifiable<String> {
+public class Event implements Identifiable<String>, Serializable {
 
     @Id
     @GeneratedValue(generator = "uuid2")

@@ -22,6 +22,7 @@
 
 
         <mapping class="com.ebn.calendar.model.Event"/>
+        <mapping class="com.ebn.calendar.model.User"/>
 
         <!--<mapping class="event.annotations.EventAnnot"/>-->
     </session-factory>

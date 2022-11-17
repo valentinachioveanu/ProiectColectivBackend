@@ -5,6 +5,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import java.io.Serializable;
+
 public class GenericCRUDRepository<ID, E extends Identifiable<ID>>{
 
     protected final SessionFactory sessionFactory;
@@ -44,7 +46,7 @@ public class GenericCRUDRepository<ID, E extends Identifiable<ID>>{
             try {
                 E aux;
                 transaction = session.beginTransaction();
-                aux = session.get(type, id);
+                aux = session.get(type, (Serializable) id);
                 transaction.commit();
                 toReturn = aux;
             } catch (RuntimeException e) {
@@ -64,7 +66,7 @@ public class GenericCRUDRepository<ID, E extends Identifiable<ID>>{
             try {
                 E aux;
                 transaction = session.beginTransaction();
-                aux = session.get(type, entity.getIdentifier());
+                aux = session.get(type, (Serializable) entity.getIdentifier());
                 session.detach(aux);
                 session.merge(entity);
                 transaction.commit();
@@ -86,7 +88,7 @@ public class GenericCRUDRepository<ID, E extends Identifiable<ID>>{
             try {
                 E aux;
                 transaction = session.beginTransaction();
-                aux = session.get(type, id);
+                aux = session.get(type, (Serializable) id);
                 session.remove(aux);
                 transaction.commit();
                 toReturn = aux;
