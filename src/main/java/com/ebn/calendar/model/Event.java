@@ -20,6 +20,9 @@ public class Event implements Identifiable<String> {
     @Column(name = "title", nullable = false)
     private String title;
 
+    @Column(name="description",nullable = false)
+    private String description;
+
     @Column(name = "start_date", nullable = false)
     private LocalDateTime startDate;
 
@@ -75,5 +78,13 @@ public class Event implements Identifiable<String> {
 
     public void setAllDay(Boolean allDay) {
         this.allDay = allDay;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
