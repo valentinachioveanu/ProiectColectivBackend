@@ -14,8 +14,13 @@ public class PersistenceConfiguration {
 
     private final String postgresPassword = "postgres";
 
+    private final boolean dropDatabase=false;
+
     @Bean
     SessionFactory sessionFactory() {
+        if(dropDatabase){
+            dropDatabase();
+        }
         if (!databaseExists()) {
             createDatabase();
         }
@@ -26,6 +31,19 @@ public class PersistenceConfiguration {
             return new MetadataSources(registry).buildMetadata().buildSessionFactory();
         } catch (Exception e) {
             StandardServiceRegistryBuilder.destroy(registry);
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void dropDatabase() {
+        try (Connection postgresConnection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/", postgresUsername, postgresPassword);
+             Statement createDBStatement = postgresConnection.createStatement()) {
+
+            createDBStatement.execute("""
+                    DROP DATABASE calendar
+                    """);
+        } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
