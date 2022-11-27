@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "events")
-@Check(constraints = "start_date < end_date")
+@Check(constraints = "start_date <= end_date")
 public class Event implements Identifiable<String> {
 
     @Id
