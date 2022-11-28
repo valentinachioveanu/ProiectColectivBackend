@@ -1,19 +1,20 @@
 package com.ebn.calendar.model.dto.request;
 
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 public class EventCRUDRequest {
-    @NotNull
+    @NotNull(message = "'title' is mandatory")
     private String title;
 
-    @NotNull
+    @NotNull(message = "'description' is mandatory")
     private String description;
 
-    @NotNull
+    @NotNull(message = "'startDate' is mandatory")
     private LocalDateTime startDate;
 
-    @NotNull
+    @NotNull(message = "'endDate' is mandatory")
     private LocalDateTime endDate;
 
     private Boolean allDay;
@@ -59,5 +60,13 @@ public class EventCRUDRequest {
 
     public void setAllDay(Boolean allDay) {
         this.allDay = allDay;
+    }
+
+    @AssertTrue(message = "'startDate' should be before 'endDate'")
+    public boolean isValidRange() {
+        if(endDate==null || startDate==null){
+            return false;
+        }
+        return endDate.compareTo(startDate) >= 0;
     }
 }

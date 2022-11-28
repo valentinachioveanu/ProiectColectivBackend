@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @CrossOrigin
@@ -25,7 +26,7 @@ public class EventController {
     }
 
     @PostMapping(path = "")
-    public EventCRUDResponse save(@RequestBody EventCRUDRequest request) {
+    public EventCRUDResponse save(@Valid @RequestBody EventCRUDRequest request) {
         Event event = daoFromDTO(request);
         Event result = eventService.save(event);
         if(result==null){
@@ -44,7 +45,7 @@ public class EventController {
     }
 
     @PutMapping(path = "/{id}")
-    public EventCRUDResponse update(@PathVariable String id, @RequestBody EventCRUDRequest request) {
+    public EventCRUDResponse update(@PathVariable String id,@Valid @RequestBody EventCRUDRequest request) {
         Event event = daoFromDTO(request);
         event.setId(id);
         Event result = eventService.update(event);
