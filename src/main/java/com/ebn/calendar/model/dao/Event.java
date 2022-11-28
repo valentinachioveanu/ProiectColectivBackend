@@ -32,6 +32,10 @@ public class Event implements Identifiable<String> {
     @Column(name = "all_day")
     private Boolean allDay;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id",nullable = false)
+    private User user;
+
     public Event() {
     }
 
@@ -86,5 +90,13 @@ public class Event implements Identifiable<String> {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

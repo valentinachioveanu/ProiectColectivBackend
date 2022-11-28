@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -22,9 +23,10 @@ public class User implements Identifiable<String> {
     private String password;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name="roles", joinColumns=@JoinColumn(name="id"))
-    @Column(name="role")
+    @CollectionTable(name = "roles", joinColumns = @JoinColumn(name = "id"))
+    @Column(name = "role")
     private List<String> roles;
+
     public User() {
     }
 
@@ -63,5 +65,18 @@ public class User implements Identifiable<String> {
 
     public void setRoles(List<String> roles) {
         this.roles = roles;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof User other)){
+            return false;
+        }
+        return Objects.equals(id,other.id);
     }
 }

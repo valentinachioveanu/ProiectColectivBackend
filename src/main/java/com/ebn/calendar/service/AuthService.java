@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class AuthService{
+public class AuthService {
 
     private final UserRepository userRepository;
 
@@ -63,8 +63,16 @@ public class AuthService{
             user.setRoles(roles);
 
             return token;
-        }catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
+    }
+
+    public User getRequester() {
+        AuthUserDetails userDetails = (AuthUserDetails) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+        User user=new User();
+        user.setId(userDetails.getId());
+        return user;
     }
 }
