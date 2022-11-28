@@ -1,43 +1,21 @@
-package com.ebn.calendar.model;
-
-import jakarta.persistence.*;
-import org.hibernate.annotations.Check;
-import org.hibernate.annotations.GenericGenerator;
+package com.ebn.calendar.model.dto.response;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "events")
-@Check(constraints = "start_date <= end_date")
-public class Event implements Identifiable<String> {
-
-    @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(name = "id", nullable = false, unique = true)
+public class EventResponse {
     private String id;
 
-    @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name="description",nullable = false)
     private String description;
 
-    @Column(name = "start_date", nullable = false)
     private LocalDateTime startDate;
 
-    @Column(name = "end_date", nullable = false)
     private LocalDateTime endDate;
 
-    @Column(name = "all_day")
     private Boolean allDay;
 
-    public Event() {
-    }
-
-    @Override
-    public String getIdentifier() {
-        return getId();
+    public EventResponse() {
     }
 
     public String getId() {
@@ -54,6 +32,14 @@ public class Event implements Identifiable<String> {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public LocalDateTime getStartDate() {
@@ -78,13 +64,5 @@ public class Event implements Identifiable<String> {
 
     public void setAllDay(Boolean allDay) {
         this.allDay = allDay;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 }

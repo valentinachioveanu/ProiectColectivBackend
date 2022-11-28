@@ -1,6 +1,6 @@
-package com.ebn.calendar.repositories;
+package com.ebn.calendar.repository;
 
-import com.ebn.calendar.model.Event;
+import com.ebn.calendar.model.dao.Event;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;

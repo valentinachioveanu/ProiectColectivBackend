@@ -21,7 +21,7 @@
         <!-- <property name="format_sql">true</property>-->
 
 
-        <mapping class="com.ebn.calendar.model.Event"/>
+        <mapping class="com.ebn.calendar.model.dao.Event"/>
 
         <!--<mapping class="event.annotations.EventAnnot"/>-->
     </session-factory>

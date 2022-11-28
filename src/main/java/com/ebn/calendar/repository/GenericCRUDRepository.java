@@ -1,11 +1,11 @@
-package com.ebn.calendar.repositories;
+package com.ebn.calendar.repository;
 
-import com.ebn.calendar.model.Identifiable;
+import com.ebn.calendar.model.dao.Identifiable;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-public class GenericCRUDRepository<ID, E extends Identifiable<ID>>{
+public class GenericCRUDRepository<ID, E extends Identifiable<ID>> {
 
     protected final SessionFactory sessionFactory;
 
