@@ -5,12 +5,14 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serial;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class AuthUserDetails implements UserDetails {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private final String id;
@@ -19,7 +21,7 @@ public class AuthUserDetails implements UserDetails {
 
     private final String password;
 
-    private Collection<? extends GrantedAuthority> authorities;
+    private final Collection<? extends GrantedAuthority> authorities;
 
     public AuthUserDetails(String id, String username, String password, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
