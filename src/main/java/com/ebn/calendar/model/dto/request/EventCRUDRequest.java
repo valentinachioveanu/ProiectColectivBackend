@@ -1,14 +1,19 @@
 package com.ebn.calendar.model.dto.request;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 public class EventCRUDRequest {
+    @NotNull
     private String title;
 
+    @NotNull
     private String description;
 
+    @NotNull
     private LocalDateTime startDate;
 
+    @NotNull
     private LocalDateTime endDate;
 
     private Boolean allDay;
