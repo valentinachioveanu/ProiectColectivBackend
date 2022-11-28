@@ -16,12 +16,12 @@ public class EventService {
         this.eventRepository = eventRepository;
     }
 
-    public Event save(Event event) {
-        return eventRepository.save(event);
+    public Event create(Event event) {
+        return eventRepository.create(event);
     }
 
-    public Event get(String id) {
-        return eventRepository.get(id);
+    public Event read(String id) {
+        return eventRepository.read(id);
     }
 
     public Event update(Event event) {
@@ -33,7 +33,7 @@ public class EventService {
     }
 
     @Deprecated
-    public List<Event> getAll() {
-        return eventRepository.getAll();
+    public List<Event> readAll() {
+        return eventRepository.readAll();
     }
 }

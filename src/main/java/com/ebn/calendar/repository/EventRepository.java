@@ -17,8 +17,8 @@ public class EventRepository extends GenericCRUDRepository<String, Event> {
     }
 
     @Deprecated
-    //returns null if failed to get data - this will be deleted in further versions
-    public List<Event> getAll() {
+    //returns null if failed to read data - this will be deleted in further versions
+    public List<Event> readAll() {
         List<Event> toReturn = null;
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = null;
