@@ -19,9 +19,6 @@ public class EventCRUDRequest {
 
     private Boolean allDay;
 
-    public EventCRUDRequest() {
-    }
-
     public String getTitle() {
         return title;
     }
@@ -64,7 +61,7 @@ public class EventCRUDRequest {
 
     @AssertTrue(message = "'startDate' should be before 'endDate'")
     public boolean isValidRange() {
-        if(endDate==null || startDate==null){
+        if (endDate == null || startDate == null) {
             return false;
         }
         return endDate.compareTo(startDate) >= 0;

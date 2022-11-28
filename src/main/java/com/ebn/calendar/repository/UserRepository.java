@@ -1,6 +1,5 @@
 package com.ebn.calendar.repository;
 
-import com.ebn.calendar.model.dao.Event;
 import com.ebn.calendar.model.dao.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -8,25 +7,23 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
-public class EventRepository extends GenericCRUDRepository<String, Event> {
+public class UserRepository extends GenericCRUDRepository<String, User> {
+
     @Autowired
-    public EventRepository(SessionFactory sessionFactory) {
-        super(sessionFactory, Event.class);
+    public UserRepository(SessionFactory sessionFactory) {
+        super(sessionFactory, User.class);
     }
 
-    public List<Event> readUserEvents(User user) {
-        List<Event> toReturn = null;
+    public User readByUsername(String username) {
+        User toReturn = null;
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = null;
             try {
-                List<Event> aux;
+                User aux;
                 transaction = session.beginTransaction();
-                aux = session.createQuery("from Event where user =: user", Event.class)
-                        .setParameter("user", user)
-                        .list();
+                aux = session.createQuery("from User where username =: username", User.class)
+                        .setParameter("username", username).getSingleResult();
                 transaction.commit();
                 toReturn = aux;
             } catch (RuntimeException e) {
