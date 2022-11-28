@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
-@Import({PersistenceConfiguration.class, WebSecurityConfiguration.class})
+@Import({AuthConfiguration.class, PersistenceConfiguration.class, WebSecurityConfiguration.class})
 public class MainConfiguration {
     @Bean
     public ModelMapper modelMapper() {

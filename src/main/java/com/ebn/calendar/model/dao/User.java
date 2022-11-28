@@ -21,7 +21,7 @@ public class User implements Identifiable<String> {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name="roles", joinColumns=@JoinColumn(name="id"))
     @Column(name="role")
     private List<String> roles;

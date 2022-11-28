@@ -5,9 +5,6 @@ import com.ebn.calendar.security.AuthTokenFilter;
 import com.ebn.calendar.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -18,40 +15,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfiguration {
-    private final AuthService userDetailsService;
+
+    private final AuthTokenFilter authTokenFilter;
 
     private final AuthEntryPoint unauthorizedHandler;
 
     @Autowired
-    public WebSecurityConfiguration(AuthService userDetailsService, AuthEntryPoint unauthorizedHandler) {
-        this.userDetailsService = userDetailsService;
+    public WebSecurityConfiguration(AuthTokenFilter authTokenFilter, AuthEntryPoint unauthorizedHandler) {
+        this.authTokenFilter = authTokenFilter;
         this.unauthorizedHandler = unauthorizedHandler;
-    }
-
-    @Bean
-    public AuthTokenFilter authenticationJwtTokenFilter() {
-        return new AuthTokenFilter();
-    }
-
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-
-        authProvider.setUserDetailsService(userDetailsService);
-        authProvider.setPasswordEncoder(passwordEncoder());
-
-        return authProvider;
-    }
-
-
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
-        return authConfig.getAuthenticationManager();
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -63,9 +35,7 @@ public class WebSecurityConfiguration {
                 .antMatchers("/events/**").permitAll()
                 .anyRequest().authenticated();
 
-        http.authenticationProvider(authenticationProvider());
-
-        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
