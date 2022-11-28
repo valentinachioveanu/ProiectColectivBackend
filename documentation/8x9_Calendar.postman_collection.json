@@ -15,7 +15,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"TestEvent\",\r\n    \"startDate\": \"2022-11-15T13:51:37.910559\",\r\n    \"endDate\": \"2022-11-16T13:51:37.910559\",\r\n    \"allDay\" : true\r\n}",
+							"raw": "{\r\n    \"title\": \"TestCreate\",\r\n    \"startDate\": \"2022-11-15T13:51:37.910559\",\r\n    \"endDate\": \"2022-11-16T13:51:37.910559\",\r\n    \"allDay\" : true,\r\n    \"description\":\"asd\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -37,10 +37,16 @@
 					"response": []
 				},
 				{
-					"name": "Get Event",
+					"name": "Read Event",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "default"
+							}
+						],
 						"url": {
 							"raw": "http://localhost:8080/events/{id}",
 							"protocol": "http",
@@ -63,7 +69,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"test\",\r\n    \"startDate\": \"2022-11-15T13:51:37.910559\",\r\n    \"endDate\": \"2022-11-16T13:51:37.910559\",\r\n    \"allDay\" : true\r\n}",
+							"raw": "{\r\n    \"title\": \"TestUpdate\",\r\n    \"startDate\": \"2022-11-15T13:51:37.910559\",\r\n    \"endDate\": \"2022-11-16T13:51:37.910559\",\r\n    \"allDay\" : true,\r\n    \"description\":\"asd\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -106,7 +112,7 @@
 					"response": []
 				},
 				{
-					"name": "Get All Events - Will be modified/deleted later",
+					"name": "Read All Events",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -124,7 +130,138 @@
 					},
 					"response": []
 				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
 			]
+		},
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "SignUp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"username\",\r\n    \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth/signup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SignIn",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"token\", jsonData[\"token\"]);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"username\",\r\n    \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth/signin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"signin"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": ""
 		}
 	]
 }

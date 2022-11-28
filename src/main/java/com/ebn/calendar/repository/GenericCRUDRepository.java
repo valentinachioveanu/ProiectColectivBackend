@@ -1,11 +1,11 @@
-package com.ebn.calendar.repositories;
+package com.ebn.calendar.repository;
 
-import com.ebn.calendar.model.Identifiable;
+import com.ebn.calendar.model.dao.Identifiable;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-public class GenericCRUDRepository<ID, E extends Identifiable<ID>>{
+public class GenericCRUDRepository<ID, E extends Identifiable<ID>> {
 
     protected final SessionFactory sessionFactory;
 
@@ -18,7 +18,7 @@ public class GenericCRUDRepository<ID, E extends Identifiable<ID>>{
 
     //returns the entity if succeeded or null if failed
     //it will also set the id of the entity given as parameter
-    public E save(E entity) {
+    public E create(E entity) {
         E toReturn = null;
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = null;
@@ -37,7 +37,7 @@ public class GenericCRUDRepository<ID, E extends Identifiable<ID>>{
     }
 
     //returns the entity if it exists or null if failed
-    public E get(ID id) {
+    public E read(ID id) {
         E toReturn = null;
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = null;

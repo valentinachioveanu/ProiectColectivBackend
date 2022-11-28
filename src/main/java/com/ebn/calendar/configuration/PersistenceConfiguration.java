@@ -1,4 +1,4 @@
-package com.ebn.calendar.configurations;
+package com.ebn.calendar.configuration;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -14,11 +14,11 @@ public class PersistenceConfiguration {
 
     private final String postgresPassword = "postgres";
 
-    private final boolean dropDatabase=false;
+    private final boolean dropDatabase = true;
 
     @Bean
     SessionFactory sessionFactory() {
-        if(dropDatabase){
+        if (dropDatabase) {
             dropDatabase();
         }
         if (!databaseExists()) {

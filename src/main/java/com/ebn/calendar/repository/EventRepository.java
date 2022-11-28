@@ -1,6 +1,7 @@
-package com.ebn.calendar.repositories;
+package com.ebn.calendar.repository;
 
-import com.ebn.calendar.model.Event;
+import com.ebn.calendar.model.dao.Event;
+import com.ebn.calendar.model.dao.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -16,16 +17,15 @@ public class EventRepository extends GenericCRUDRepository<String, Event> {
         super(sessionFactory, Event.class);
     }
 
-    @Deprecated
-    //returns null if failed to get data - this will be deleted in further versions
-    public List<Event> getAll() {
+    public List<Event> readUserEvents(User user) {
         List<Event> toReturn = null;
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = null;
             try {
                 List<Event> aux;
                 transaction = session.beginTransaction();
-                aux = session.createQuery("from Event", Event.class)
+                aux = session.createQuery("from Event where user =: user", Event.class)
+                        .setParameter("user", user)
                         .list();
                 transaction.commit();
                 toReturn = aux;
