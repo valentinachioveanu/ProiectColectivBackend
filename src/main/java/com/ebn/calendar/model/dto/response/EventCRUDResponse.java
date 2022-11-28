@@ -2,7 +2,7 @@ package com.ebn.calendar.model.dto.response;
 
 import java.time.LocalDateTime;
 
-public class EventResponse {
+public class EventCRUDResponse {
     private String id;
 
     private String title;
@@ -15,7 +15,7 @@ public class EventResponse {
 
     private Boolean allDay;
 
-    public EventResponse() {
+    public EventCRUDResponse() {
     }
 
     public String getId() {

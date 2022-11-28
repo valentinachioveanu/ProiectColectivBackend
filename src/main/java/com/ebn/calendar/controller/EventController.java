@@ -2,7 +2,7 @@ package com.ebn.calendar.controller;
 
 import com.ebn.calendar.model.dao.Event;
 import com.ebn.calendar.model.dto.request.EventCRUDRequest;
-import com.ebn.calendar.model.dto.response.EventResponse;
+import com.ebn.calendar.model.dto.response.EventCRUDResponse;
 import com.ebn.calendar.service.EventService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,20 +25,20 @@ public class EventController {
     }
 
     @PostMapping(path = "")
-    public EventResponse save(@RequestBody EventCRUDRequest request) {
+    public EventCRUDResponse save(@RequestBody EventCRUDRequest request) {
         Event event = dtoToDao(request);
         Event result = eventService.save(event);
         return daoToDto(result);
     }
 
     @GetMapping(path = "/{id}")
-    public EventResponse get(@PathVariable String id) {
+    public EventCRUDResponse get(@PathVariable String id) {
         Event result = eventService.get(id);
         return daoToDto(result);
     }
 
     @PutMapping(path = "/{id}")
-    public EventResponse update(@PathVariable String id, @RequestBody EventCRUDRequest request) {
+    public EventCRUDResponse update(@PathVariable String id, @RequestBody EventCRUDRequest request) {
         Event event = dtoToDao(request);
         event.setId(id);
         Event result = eventService.update(event);
@@ -46,13 +46,13 @@ public class EventController {
     }
 
     @DeleteMapping(path = "/{id}")
-    public EventResponse delete(@PathVariable String id) {
+    public EventCRUDResponse delete(@PathVariable String id) {
         Event result = eventService.delete(id);
         return daoToDto(result);
     }
 
     @GetMapping(path = "")
-    public List<EventResponse> getAll() {
+    public List<EventCRUDResponse> getAll() {
         return eventService.getAll().stream().map(this::daoToDto).toList();
     }
 
@@ -60,10 +60,10 @@ public class EventController {
         return modelMapper.map(eventRequest, Event.class);
     }
 
-    private EventResponse daoToDto(Event event) {
+    private EventCRUDResponse daoToDto(Event event) {
         if (event == null) {
             return null;
         }
-        return modelMapper.map(event, EventResponse.class);
+        return modelMapper.map(event, EventCRUDResponse.class);
     }
 }
