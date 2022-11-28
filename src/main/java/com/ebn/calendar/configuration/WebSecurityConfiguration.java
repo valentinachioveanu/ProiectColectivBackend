@@ -1,6 +1,6 @@
 package com.ebn.calendar.configuration;
 
-import com.ebn.calendar.security.AuthEntryPointJwt;
+import com.ebn.calendar.security.AuthEntryPoint;
 import com.ebn.calendar.security.AuthTokenFilter;
 import com.ebn.calendar.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +20,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfiguration {
     private final AuthService userDetailsService;
 
-    private final AuthEntryPointJwt unauthorizedHandler;
+    private final AuthEntryPoint unauthorizedHandler;
 
     @Autowired
-    public WebSecurityConfiguration(AuthService userDetailsService, AuthEntryPointJwt unauthorizedHandler) {
+    public WebSecurityConfiguration(AuthService userDetailsService, AuthEntryPoint unauthorizedHandler) {
         this.userDetailsService = userDetailsService;
         this.unauthorizedHandler = unauthorizedHandler;
     }
