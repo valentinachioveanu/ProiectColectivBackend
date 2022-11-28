@@ -8,6 +8,7 @@ import com.ebn.calendar.service.EventService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -28,6 +29,7 @@ public class EventController {
     }
 
     @PostMapping(path = "")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> create(@Valid @RequestBody EventCRUDRequest request) {
         Event event = daoFromDTO(request);
         Event result = eventService.create(event);
@@ -40,6 +42,7 @@ public class EventController {
     }
 
     @GetMapping(path = "/{id}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> read(@PathVariable String id) {
         Event result = eventService.read(id);
         if(result==null){
@@ -51,6 +54,7 @@ public class EventController {
     }
 
     @PutMapping(path = "/{id}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> update(@PathVariable String id,@Valid @RequestBody EventCRUDRequest request) {
         Event event = daoFromDTO(request);
         event.setId(id);
@@ -64,6 +68,7 @@ public class EventController {
     }
 
     @DeleteMapping(path = "/{id}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> delete(@PathVariable String id) {
         Event result = eventService.delete(id);
         if(result==null){
@@ -76,6 +81,7 @@ public class EventController {
 
     @Deprecated
     @GetMapping(path = "")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> readAll() {
         List<Event> result=eventService.readAll();
         if(result==null){
