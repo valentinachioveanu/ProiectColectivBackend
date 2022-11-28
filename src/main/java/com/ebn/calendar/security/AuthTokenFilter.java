@@ -1,6 +1,6 @@
 package com.ebn.calendar.security;
 
-import com.ebn.calendar.service.AuthService;
+import com.ebn.calendar.service.AuthDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,12 +20,12 @@ import java.io.IOException;
 public class AuthTokenFilter extends OncePerRequestFilter {
     private final JwtUtils jwtUtils;
 
-    private final AuthService authService;
+    private final AuthDetailService authDetailService;
 
     @Autowired
-    public AuthTokenFilter(JwtUtils jwtUtils, AuthService authService) {
+    public AuthTokenFilter(JwtUtils jwtUtils, AuthDetailService authDetailService) {
         this.jwtUtils = jwtUtils;
-        this.authService = authService;
+        this.authDetailService = authDetailService;
     }
 
     @Override
@@ -36,7 +36,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             if (jwt != null && jwtUtils.validateToken(jwt)) {
                 String username = jwtUtils.getUsernameFromToken(jwt);
 
-                UserDetails userDetails = authService.loadUserByUsername(username);
+                UserDetails userDetails = authDetailService.loadUserByUsername(username);
 
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(

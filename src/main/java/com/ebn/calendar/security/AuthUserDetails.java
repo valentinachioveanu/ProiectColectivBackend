@@ -36,7 +36,8 @@ public class AuthUserDetails implements UserDetails {
         return new AuthUserDetails(
                 user.getId(),
                 user.getUsername(),
-                user.getPassword(),authorities);
+                user.getPassword(),
+                authorities);
     }
 
     public String getId() {

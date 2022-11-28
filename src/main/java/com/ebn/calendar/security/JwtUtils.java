@@ -1,6 +1,7 @@
 package com.ebn.calendar.security;
 
 import io.jsonwebtoken.*;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -11,9 +12,12 @@ public class JwtUtils {
 
     private final int jwtExpirationMs = 86400000;
 
-    public String generateToken(String username) {
+    public String generateToken(Authentication authentication) {
+
+        AuthUserDetails userPrincipal = (AuthUserDetails) authentication.getPrincipal();
+
         return Jwts.builder()
-                .setSubject(username)
+                .setSubject((userPrincipal.getUsername()))
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
@@ -24,9 +28,9 @@ public class JwtUtils {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
     }
 
-    public boolean validateToken(String authToken) {
+    public boolean validateToken(String token) {
         try {
-            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
+            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
             return true;
         } catch (Exception e) {
             e.printStackTrace();

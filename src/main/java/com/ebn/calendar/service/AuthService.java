@@ -5,16 +5,19 @@ import com.ebn.calendar.repository.UserRepository;
 import com.ebn.calendar.security.AuthUserDetails;
 import com.ebn.calendar.security.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
-public class AuthService implements UserDetailsService {
+public class AuthService{
 
     private final UserRepository userRepository;
 
@@ -22,11 +25,15 @@ public class AuthService implements UserDetailsService {
 
     private final JwtUtils jwtUtils;
 
+    private final AuthenticationManager authenticationManager;
+
     @Autowired
-    public AuthService(UserRepository userRepository, PasswordEncoder encoder, JwtUtils jwtUtils) {
+    public AuthService(UserRepository userRepository, PasswordEncoder encoder, JwtUtils jwtUtils,
+                       AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
         this.encoder = encoder;
         this.jwtUtils = jwtUtils;
+        this.authenticationManager = authenticationManager;
     }
 
     public User create(User user) {
@@ -40,22 +47,24 @@ public class AuthService implements UserDetailsService {
     }
 
     public String authenticate(User user) {
-        user.setPassword(encoder.encode(user.getPassword()));
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
 
-        User foundUser = userRepository.readByUsername(user.getUsername());
-        if (foundUser == null || !foundUser.getPassword().equals(user.getPassword())) {
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String token = jwtUtils.generateToken(authentication);
+
+            AuthUserDetails userDetails = (AuthUserDetails) authentication.getPrincipal();
+
+            user.setId(userDetails.getId());
+            List<String> roles = userDetails.getAuthorities().stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .collect(Collectors.toList());
+            user.setRoles(roles);
+
+            return token;
+        }catch (Exception e){
             return null;
         }
-        user.setRoles(foundUser.getRoles());
-        return jwtUtils.generateToken(user.getUsername());
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.readByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("Username not found");
-        }
-        return AuthUserDetails.build(user);
     }
 }
