@@ -1,5 +1,6 @@
 package com.ebn.calendar.controller;
 
+import com.ebn.calendar.model.dto.response.MessageResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -14,17 +15,18 @@ import java.util.List;
 public class AppControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public List<String>  methodArgumentNotValidException(MethodArgumentNotValidException ex) {
+    public List<MessageResponse> methodArgumentNotValidException(MethodArgumentNotValidException ex) {
         BindingResult result = ex.getBindingResult();
         return result.getFieldErrors().stream()
-                .map(this::extractMessageFromError)
+                .map(this::messageFromError)
                 .toList();
     }
-    private String extractMessageFromError(FieldError fieldError){
-        String message=fieldError.getDefaultMessage();
-        if(message==null){
-            return "";
+
+    private MessageResponse messageFromError(FieldError fieldError) {
+        String message = fieldError.getDefaultMessage();
+        if (message == null) {
+            message = "";
         }
-        return message;
+        return new MessageResponse(message);
     }
 }
