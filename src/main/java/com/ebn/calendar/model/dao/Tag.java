@@ -23,8 +23,8 @@ public class Tag implements Identifiable<String> {
     private String colorCode;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "owner_id", nullable = false)
+    private User owner;
 
     public Tag() {
     }
@@ -58,11 +58,11 @@ public class Tag implements Identifiable<String> {
         this.colorCode = colorCode;
     }
 
-    public User getUser() {
-        return user;
+    public User getOwner() {
+        return owner;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 }

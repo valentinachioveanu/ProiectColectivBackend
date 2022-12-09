@@ -18,13 +18,13 @@ public class TagService {
     }
 
     public Tag create(Tag tag, User user) {
-        tag.setUser(user);
+        tag.setOwner(user);
         return tagRepository.create(tag);
     }
 
     public Tag read(String id, User user) {
         Tag result = tagRepository.read(id);
-        if (result == null || !result.getUser().equals(user)) {
+        if (result == null || !result.getOwner().equals(user)) {
             return null;
         }
         return result;
@@ -35,7 +35,7 @@ public class TagService {
         if (existingTag == null) {
             return null;
         }
-        tag.setUser(user);
+        tag.setOwner(user);
         return tagRepository.update(tag);
     }
 
