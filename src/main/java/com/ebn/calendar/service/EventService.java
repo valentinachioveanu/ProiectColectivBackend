@@ -18,13 +18,13 @@ public class EventService {
     }
 
     public Event create(Event event, User user) {
-        event.setUser(user);
+        event.setOwner(user);
         return eventRepository.create(event);
     }
 
     public Event read(String id, User user) {
         Event result = eventRepository.read(id);
-        if (result == null || !result.getUser().equals(user)) {
+        if (result == null || !result.getOwner().equals(user)) {
             return null;
         }
         return result;
@@ -35,7 +35,7 @@ public class EventService {
         if (existingEvent == null) {
             return null;
         }
-        event.setUser(user);
+        event.setOwner(user);
         return eventRepository.update(event);
     }
 

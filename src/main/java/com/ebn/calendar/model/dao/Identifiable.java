@@ -1,6 +1,8 @@
 package com.ebn.calendar.model.dao;
 
-public interface Identifiable<ID> {
+import java.io.Serializable;
+
+public interface Identifiable<ID> extends Serializable {
 
     ID getIdentifier();
 }

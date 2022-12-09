@@ -14,13 +14,13 @@ public class Event implements Identifiable<String> {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(name = "id", nullable = false, unique = true)
+    @Column(name = "id", nullable = false, unique = true, length = 36)
     private String id;
 
-    @Column(name = "title", nullable = false)
+    @Column(name = "title", nullable = false, length = 20)
     private String title;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description", nullable = false, length = 100)
     private String description;
 
     @Column(name = "start_date", nullable = false)
@@ -33,8 +33,8 @@ public class Event implements Identifiable<String> {
     private Boolean allDay;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id",nullable = false)
-    private User user;
+    @JoinColumn(name = "owner_id", nullable = false)
+    private User owner;
 
     public Event() {
     }
@@ -92,11 +92,11 @@ public class Event implements Identifiable<String> {
         this.description = description;
     }
 
-    public User getUser() {
-        return user;
+    public User getOwner() {
+        return owner;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 }
