@@ -10,7 +10,7 @@ public class TagCRUDRequest {
     private String name;
 
     @NotNull(message = "'colorCode' is mandatory")
-    @Pattern(regexp="^[0-9A-F]{6}$", message="'colorCode' should be in HEX format")
+    @Pattern(regexp="^[0-9A-F]{6}$", message="'colorCode' should be a string in HEX format representing a color")
     private String colorCode;
 
     public String getName() {
