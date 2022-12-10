@@ -5,6 +5,7 @@ import org.hibernate.annotations.Check;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "events")
@@ -31,6 +32,17 @@ public class Event implements Identifiable<String> {
 
     @Column(name = "all_day")
     private Boolean allDay;
+
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE},
+            fetch = FetchType.EAGER
+    )
+    @JoinTable(name = "event_tag",
+            joinColumns = @JoinColumn(name = "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private Set<Tag> tags;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id", nullable = false)
@@ -90,6 +102,14 @@ public class Event implements Identifiable<String> {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
     }
 
     public User getOwner() {
