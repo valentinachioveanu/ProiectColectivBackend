@@ -3,6 +3,7 @@ package com.ebn.calendar.model.dao;
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 
+import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,13 +14,14 @@ public class User implements Identifiable<String> {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(name = "id", nullable = false, unique = true)
+    @Column(name = "id", nullable = false, unique = true, length = 36)
     private String id;
 
-    @Column(name = "username", nullable = false, unique = true)
+    @Column(name = "username", nullable = false, unique = true, length = 20)
+    @Size(min = 3, max = 20)
     private String username;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password", nullable = false, length = 60)
     private String password;
 
     @ElementCollection(fetch = FetchType.EAGER)
@@ -74,9 +76,9 @@ public class User implements Identifiable<String> {
 
     @Override
     public boolean equals(Object obj) {
-        if(!(obj instanceof User other)){
+        if (!(obj instanceof User other)) {
             return false;
         }
-        return Objects.equals(id,other.id);
+        return Objects.equals(id, other.id);
     }
 }

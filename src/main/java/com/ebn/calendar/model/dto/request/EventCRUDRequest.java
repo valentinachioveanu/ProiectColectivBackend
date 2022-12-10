@@ -2,13 +2,16 @@ package com.ebn.calendar.model.dto.request;
 
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 public class EventCRUDRequest {
     @NotNull(message = "'title' is mandatory")
+    @Size(max = 20, message = "'title' should have a maximum length 20 character")
     private String title;
 
     @NotNull(message = "'description' is mandatory")
+    @Size(max = 100, message = "'description' should have a maximum length 100 character")
     private String description;
 
     @NotNull(message = "'startDate' is mandatory")

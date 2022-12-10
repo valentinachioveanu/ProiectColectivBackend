@@ -5,6 +5,7 @@ import org.hibernate.annotations.Check;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "events")
@@ -14,13 +15,13 @@ public class Event implements Identifiable<String> {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(name = "id", nullable = false, unique = true)
+    @Column(name = "id", nullable = false, unique = true, length = 36)
     private String id;
 
-    @Column(name = "title", nullable = false)
+    @Column(name = "title", nullable = false, length = 20)
     private String title;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description", nullable = false, length = 100)
     private String description;
 
     @Column(name = "start_date", nullable = false)
@@ -32,9 +33,20 @@ public class Event implements Identifiable<String> {
     @Column(name = "all_day")
     private Boolean allDay;
 
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE},
+            fetch = FetchType.EAGER
+    )
+    @JoinTable(name = "event_tag",
+            joinColumns = @JoinColumn(name = "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private Set<Tag> tags;
+
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id",nullable = false)
-    private User user;
+    @JoinColumn(name = "owner_id", nullable = false)
+    private User owner;
 
     public Event() {
     }
@@ -92,11 +104,19 @@ public class Event implements Identifiable<String> {
         this.description = description;
     }
 
-    public User getUser() {
-        return user;
+    public Set<Tag> getTags() {
+        return tags;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 }

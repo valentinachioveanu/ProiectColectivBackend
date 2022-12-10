@@ -1,11 +1,11 @@
 package com.ebn.calendar.controller;
 
-import com.ebn.calendar.model.dao.Event;
-import com.ebn.calendar.model.dto.request.EventCRUDRequest;
-import com.ebn.calendar.model.dto.response.EventCRUDResponse;
+import com.ebn.calendar.model.dao.Tag;
+import com.ebn.calendar.model.dto.request.TagCRUDRequest;
 import com.ebn.calendar.model.dto.response.MessageResponse;
+import com.ebn.calendar.model.dto.response.TagCRUDResponse;
 import com.ebn.calendar.service.AuthService;
-import com.ebn.calendar.service.EventService;
+import com.ebn.calendar.service.TagService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,31 +17,31 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping(path = "/events", produces = "application/json")
-public class EventController {
+@RequestMapping(path = "/tags", produces = "application/json")
+public class TagController {
 
     private final ModelMapper modelMapper;
-    
-    private final EventService eventService;
+
+    private final TagService tagService;
 
     private final AuthService authService;
 
     @Autowired
-    public EventController(ModelMapper modelMapper, EventService eventService, AuthService authService) {
+    public TagController(ModelMapper modelMapper, TagService tagService, AuthService authService) {
         this.modelMapper = modelMapper;
-        this.eventService = eventService;
+        this.tagService = tagService;
         this.authService = authService;
     }
 
     @PostMapping(path = "")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> create(@Valid @RequestBody EventCRUDRequest request) {
-        Event event = daoFromDTO(request);
+    public ResponseEntity<?> create(@Valid @RequestBody TagCRUDRequest request) {
+        Tag tag = daoFromDTO(request);
 
-        Event result = eventService.create(event,authService.getRequester());
+        Tag result = tagService.create(tag,authService.getRequester());
         if(result==null){
             return ResponseEntity.internalServerError()
-                    .body(new MessageResponse("Error: couldn't create event"));
+                    .body(new MessageResponse("Error: couldn't create tag"));
         }
         return ResponseEntity.ok()
                 .body(dtoFromDao(result));
@@ -50,10 +50,10 @@ public class EventController {
     @GetMapping(path = "/{id}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> read(@PathVariable String id) {
-        Event result = eventService.read(id,authService.getRequester());
+        Tag result = tagService.read(id,authService.getRequester());
         if(result==null){
             return ResponseEntity.internalServerError()
-                    .body(new MessageResponse("Error: couldn't read event"));
+                    .body(new MessageResponse("Error: couldn't read tag"));
         }
         return ResponseEntity.ok()
                 .body(dtoFromDao(result));
@@ -61,13 +61,13 @@ public class EventController {
 
     @PutMapping(path = "/{id}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> update(@PathVariable String id,@Valid @RequestBody EventCRUDRequest request) {
-        Event event = daoFromDTO(request);
-        event.setId(id);
-        Event result = eventService.update(event,authService.getRequester());
+    public ResponseEntity<?> update(@PathVariable String id,@Valid @RequestBody TagCRUDRequest request) {
+        Tag tag = daoFromDTO(request);
+        tag.setId(id);
+        Tag result = tagService.update(tag,authService.getRequester());
         if(result==null){
             return ResponseEntity.internalServerError()
-                    .body(new MessageResponse("Error: couldn't update event"));
+                    .body(new MessageResponse("Error: couldn't update tag"));
         }
         return ResponseEntity.ok()
                 .body(dtoFromDao(result));
@@ -76,10 +76,10 @@ public class EventController {
     @DeleteMapping(path = "/{id}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> delete(@PathVariable String id) {
-        Event result = eventService.delete(id,authService.getRequester());
+        Tag result = tagService.delete(id,authService.getRequester());
         if(result==null){
             return ResponseEntity.internalServerError()
-                    .body(new MessageResponse("Error: couldn't delete event"));
+                    .body(new MessageResponse("Error: couldn't delete tag"));
         }
         return ResponseEntity.ok()
                 .body(dtoFromDao(result));
@@ -89,20 +89,20 @@ public class EventController {
     @GetMapping(path = "")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> readAll() {
-        List<Event> result=eventService.readAll(authService.getRequester());
+        List<Tag> result=tagService.readAll(authService.getRequester());
         if(result==null){
             return ResponseEntity.internalServerError()
-                    .body(new MessageResponse("Error: couldn't read events"));
+                    .body(new MessageResponse("Error: couldn't read tags"));
         }
         return ResponseEntity.ok()
                 .body(result.stream().map(this::dtoFromDao).toList());
     }
 
-    private Event daoFromDTO(EventCRUDRequest eventRequest) {
-        return modelMapper.map(eventRequest, Event.class);
+    private Tag daoFromDTO(TagCRUDRequest tagRequest) {
+        return modelMapper.map(tagRequest, Tag.class);
     }
 
-    private EventCRUDResponse dtoFromDao(Event event) {
-        return modelMapper.map(event, EventCRUDResponse.class);
+    private TagCRUDResponse dtoFromDao(Tag tag) {
+        return modelMapper.map(tag, TagCRUDResponse.class);
     }
 }
