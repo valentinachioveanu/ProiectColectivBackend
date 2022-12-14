@@ -24,7 +24,7 @@ public class TagRepository extends GenericCRUDRepository<String, Tag> {
             try {
                 List<Tag> aux;
                 transaction = session.beginTransaction();
-                aux = session.createQuery("from Tag where user = :user", Tag.class)
+                aux = session.createQuery("from Tag where owner = :user", Tag.class)
                         .setParameter("user", user)
                         .list();
                 transaction.commit();
