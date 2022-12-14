@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class TagRepository extends GenericCRUDRepository<String, Tag> {
+public class TagRepository extends GenericCRUDRepository<Tag, String> {
     @Autowired
     public TagRepository(SessionFactory sessionFactory) {
         super(sessionFactory, Tag.class);

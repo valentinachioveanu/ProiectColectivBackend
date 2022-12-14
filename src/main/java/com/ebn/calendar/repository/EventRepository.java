@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class EventRepository extends GenericCRUDRepository<String, Event> {
+public class EventRepository extends GenericCRUDRepository<Event, String> {
     @Autowired
     public EventRepository(SessionFactory sessionFactory) {
         super(sessionFactory, Event.class);

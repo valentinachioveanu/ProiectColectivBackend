@@ -5,7 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-public class GenericCRUDRepository<ID, E extends Identifiable<ID>> {
+public class GenericCRUDRepository<E extends Identifiable<ID>, ID> {
 
     protected final SessionFactory sessionFactory;
 

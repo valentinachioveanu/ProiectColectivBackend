@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class UserRepository extends GenericCRUDRepository<String, User> {
+public class UserRepository extends GenericCRUDRepository<User, String> {
 
     @Autowired
     public UserRepository(SessionFactory sessionFactory) {
