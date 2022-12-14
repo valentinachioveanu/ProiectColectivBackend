@@ -71,7 +71,7 @@ public class AuthService {
     public User getRequester() {
         AuthUserDetails userDetails = (AuthUserDetails) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
-        User user=new User();
+        User user = new User();
         user.setId(userDetails.getId());
         return user;
     }

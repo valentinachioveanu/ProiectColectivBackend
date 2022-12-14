@@ -15,10 +15,11 @@ import javax.validation.Valid;
 
 @CrossOrigin
 @RestController
-@RequestMapping(path="/auth", produces = "application/json")
+@RequestMapping(path = "/auth", produces = "application/json")
 public class AuthController {
 
     final AuthService authService;
+
     final ModelMapper modelMapper;
 
     @Autowired
@@ -31,14 +32,14 @@ public class AuthController {
     public ResponseEntity<?> signIn(@Valid @RequestBody SignInRequest signInRequest) {
         User user = userFromRequest(signInRequest);
 
-        String token= authService.authenticate(user);
-        if(token==null){
+        String token = authService.authenticate(user);
+        if (token == null) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: couldn't load user with given credentials"));
         }
 
-        JwtResponse response=jwtResponseFromUser(user);
+        JwtResponse response = jwtResponseFromUser(user);
         response.setToken(token);
         return ResponseEntity.ok()
                 .body(response);
@@ -55,7 +56,7 @@ public class AuthController {
         }
 
         User result = authService.create(user);
-        if(result==null){
+        if (result == null) {
             return ResponseEntity.internalServerError()
                     .body(new MessageResponse("Error: couldn't register user"));
         }
@@ -68,7 +69,9 @@ public class AuthController {
         return modelMapper.map(signUpAndInRequest, User.class);
     }
 
-    private JwtResponse jwtResponseFromUser(User user){return modelMapper.map(user, JwtResponse.class);}
+    private JwtResponse jwtResponseFromUser(User user) {
+        return modelMapper.map(user, JwtResponse.class);
+    }
 }
 
 

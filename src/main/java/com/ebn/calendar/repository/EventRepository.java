@@ -24,7 +24,7 @@ public class EventRepository extends GenericCRUDRepository<String, Event> {
             try {
                 List<Event> aux;
                 transaction = session.beginTransaction();
-                aux = session.createQuery("from Event where user =: user", Event.class)
+                aux = session.createQuery("from Event where user = :user", Event.class)
                         .setParameter("user", user)
                         .list();
                 transaction.commit();

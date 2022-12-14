@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AuthDetailService implements UserDetailsService {
+
     private final UserRepository userRepository;
 
     @Autowired

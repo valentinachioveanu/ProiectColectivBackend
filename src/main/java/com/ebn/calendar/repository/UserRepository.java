@@ -22,7 +22,7 @@ public class UserRepository extends GenericCRUDRepository<String, User> {
             try {
                 User aux;
                 transaction = session.beginTransaction();
-                aux = session.createQuery("from User where username =: username", User.class)
+                aux = session.createQuery("from User where username = :username", User.class)
                         .setParameter("username", username).getSingleResult();
                 transaction.commit();
                 toReturn = aux;

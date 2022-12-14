@@ -38,8 +38,8 @@ public class TagController {
     public ResponseEntity<?> create(@Valid @RequestBody TagCRUDRequest request) {
         Tag tag = daoFromDTO(request);
 
-        Tag result = tagService.create(tag,authService.getRequester());
-        if(result==null){
+        Tag result = tagService.create(tag, authService.getRequester());
+        if (result == null) {
             return ResponseEntity.internalServerError()
                     .body(new MessageResponse("Error: couldn't create tag"));
         }
@@ -50,8 +50,8 @@ public class TagController {
     @GetMapping(path = "/{id}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> read(@PathVariable String id) {
-        Tag result = tagService.read(id,authService.getRequester());
-        if(result==null){
+        Tag result = tagService.read(id, authService.getRequester());
+        if (result == null) {
             return ResponseEntity.internalServerError()
                     .body(new MessageResponse("Error: couldn't read tag"));
         }
@@ -61,11 +61,11 @@ public class TagController {
 
     @PutMapping(path = "/{id}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> update(@PathVariable String id,@Valid @RequestBody TagCRUDRequest request) {
+    public ResponseEntity<?> update(@PathVariable String id, @Valid @RequestBody TagCRUDRequest request) {
         Tag tag = daoFromDTO(request);
         tag.setId(id);
-        Tag result = tagService.update(tag,authService.getRequester());
-        if(result==null){
+        Tag result = tagService.update(tag, authService.getRequester());
+        if (result == null) {
             return ResponseEntity.internalServerError()
                     .body(new MessageResponse("Error: couldn't update tag"));
         }
@@ -76,8 +76,8 @@ public class TagController {
     @DeleteMapping(path = "/{id}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> delete(@PathVariable String id) {
-        Tag result = tagService.delete(id,authService.getRequester());
-        if(result==null){
+        Tag result = tagService.delete(id, authService.getRequester());
+        if (result == null) {
             return ResponseEntity.internalServerError()
                     .body(new MessageResponse("Error: couldn't delete tag"));
         }
@@ -89,8 +89,8 @@ public class TagController {
     @GetMapping(path = "")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> readAll() {
-        List<Tag> result=tagService.readAll(authService.getRequester());
-        if(result==null){
+        List<Tag> result = tagService.readAll(authService.getRequester());
+        if (result == null) {
             return ResponseEntity.internalServerError()
                     .body(new MessageResponse("Error: couldn't read tags"));
         }

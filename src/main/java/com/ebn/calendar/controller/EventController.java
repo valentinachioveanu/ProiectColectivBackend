@@ -21,7 +21,7 @@ import java.util.List;
 public class EventController {
 
     private final ModelMapper modelMapper;
-    
+
     private final EventService eventService;
 
     private final AuthService authService;
@@ -38,8 +38,8 @@ public class EventController {
     public ResponseEntity<?> create(@Valid @RequestBody EventCRUDRequest request) {
         Event event = daoFromDTO(request);
 
-        Event result = eventService.create(event,authService.getRequester());
-        if(result==null){
+        Event result = eventService.create(event, authService.getRequester());
+        if (result == null) {
             return ResponseEntity.internalServerError()
                     .body(new MessageResponse("Error: couldn't create event"));
         }
@@ -50,8 +50,8 @@ public class EventController {
     @GetMapping(path = "/{id}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> read(@PathVariable String id) {
-        Event result = eventService.read(id,authService.getRequester());
-        if(result==null){
+        Event result = eventService.read(id, authService.getRequester());
+        if (result == null) {
             return ResponseEntity.internalServerError()
                     .body(new MessageResponse("Error: couldn't read event"));
         }
@@ -61,11 +61,11 @@ public class EventController {
 
     @PutMapping(path = "/{id}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> update(@PathVariable String id,@Valid @RequestBody EventCRUDRequest request) {
+    public ResponseEntity<?> update(@PathVariable String id, @Valid @RequestBody EventCRUDRequest request) {
         Event event = daoFromDTO(request);
         event.setId(id);
-        Event result = eventService.update(event,authService.getRequester());
-        if(result==null){
+        Event result = eventService.update(event, authService.getRequester());
+        if (result == null) {
             return ResponseEntity.internalServerError()
                     .body(new MessageResponse("Error: couldn't update event"));
         }
@@ -76,8 +76,8 @@ public class EventController {
     @DeleteMapping(path = "/{id}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> delete(@PathVariable String id) {
-        Event result = eventService.delete(id,authService.getRequester());
-        if(result==null){
+        Event result = eventService.delete(id, authService.getRequester());
+        if (result == null) {
             return ResponseEntity.internalServerError()
                     .body(new MessageResponse("Error: couldn't delete event"));
         }
@@ -89,8 +89,8 @@ public class EventController {
     @GetMapping(path = "")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> readAll() {
-        List<Event> result=eventService.readAll(authService.getRequester());
-        if(result==null){
+        List<Event> result = eventService.readAll(authService.getRequester());
+        if (result == null) {
             return ResponseEntity.internalServerError()
                     .body(new MessageResponse("Error: couldn't read events"));
         }
