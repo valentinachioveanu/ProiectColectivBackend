@@ -4,6 +4,7 @@ import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 public class EventCRUDRequest {
     @NotNull(message = "'title' is mandatory")
@@ -21,6 +22,9 @@ public class EventCRUDRequest {
     private LocalDateTime endDate;
 
     private Boolean allDay;
+
+    @NotNull(message = "'tagsIds' is mandatory")
+    private Set<String> tagsIds;
 
     public String getTitle() {
         return title;
@@ -60,6 +64,14 @@ public class EventCRUDRequest {
 
     public void setAllDay(Boolean allDay) {
         this.allDay = allDay;
+    }
+
+    public Set<String> getTagsIds() {
+        return tagsIds;
+    }
+
+    public void setTagsIds(Set<String> tagsIds) {
+        this.tagsIds = tagsIds;
     }
 
     @AssertTrue(message = "'startDate' should be before 'endDate'")

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class TagRepository extends GenericCRUDRepository<Tag, String> {
@@ -26,6 +27,28 @@ public class TagRepository extends GenericCRUDRepository<Tag, String> {
                 transaction = session.beginTransaction();
                 aux = session.createQuery("from Tag where owner = :user", Tag.class)
                         .setParameter("user", user)
+                        .list();
+                transaction.commit();
+                toReturn = aux;
+            } catch (RuntimeException e) {
+                e.printStackTrace();
+                if (transaction != null)
+                    transaction.rollback();
+            }
+        }
+        return toReturn;
+    }
+
+    public List<Tag> readUserTags(Set<String> tagsIds, User user) {
+        List<Tag> toReturn = null;
+        try (Session session = sessionFactory.openSession()) {
+            Transaction transaction = null;
+            try {
+                List<Tag> aux;
+                transaction = session.beginTransaction();
+                aux = session.createQuery("from Tag where owner = :user and id in :tagsIds", Tag.class)
+                        .setParameter("user", user)
+                        .setParameter("tagsIds", tagsIds)
                         .list();
                 transaction.commit();
                 toReturn = aux;

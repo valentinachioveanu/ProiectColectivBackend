@@ -1,6 +1,7 @@
 package com.ebn.calendar.model.dto.response;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 public class EventCRUDResponse {
     private String id;
@@ -14,6 +15,8 @@ public class EventCRUDResponse {
     private LocalDateTime endDate;
 
     private Boolean allDay;
+
+    private Set<TagCRUDResponse> tags;
 
     public EventCRUDResponse() {
     }
@@ -64,5 +67,13 @@ public class EventCRUDResponse {
 
     public void setAllDay(Boolean allDay) {
         this.allDay = allDay;
+    }
+
+    public Set<TagCRUDResponse> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<TagCRUDResponse> tags) {
+        this.tags = tags;
     }
 }

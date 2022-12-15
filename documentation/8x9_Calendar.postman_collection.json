@@ -15,7 +15,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"TestCreate\",\r\n    \"startDate\": \"2022-11-15T13:51:37.910559\",\r\n    \"endDate\": \"2022-11-16T13:51:37.910559\",\r\n    \"allDay\" : true,\r\n    \"description\":\"asd\"\r\n}",
+							"raw": "{\r\n    \"title\": \"TestCreate\",\r\n    \"startDate\": \"2022-11-15T13:51:37.910559\",\r\n    \"endDate\": \"2022-11-16T13:51:37.910559\",\r\n    \"allDay\": true,\r\n    \"description\": \"creating description\",\r\n    \"tagsIds\": [\r\n        \"id-1\",\r\n        \"id-2\"\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -69,7 +69,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"TestUpdate\",\r\n    \"startDate\": \"2022-11-15T13:51:37.910559\",\r\n    \"endDate\": \"2022-11-16T13:51:37.910559\",\r\n    \"allDay\" : true,\r\n    \"description\":\"asd\"\r\n}",
+							"raw": "{\r\n    \"title\": \"TestUpdate\",\r\n    \"startDate\": \"2022-11-10T13:51:37.910559\",\r\n    \"endDate\": \"2022-11-20T13:51:37.910559\",\r\n    \"allDay\": false,\r\n    \"description\": \"updated description\",\r\n    \"tagsIds\": [\r\n        \"id-2\",\r\n        \"id-3\"\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -172,7 +172,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"holiday\",\r\n    \"colorCode\": \"AAAAAA\"\r\n}",
+							"raw": "{\r\n    \"name\": \"workday\",\r\n    \"colorCode\": \"AAAAAA\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -226,7 +226,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"workday\",\r\n    \"colorCode\": \"ABAAAA\"\r\n}",
+							"raw": "{\r\n    \"name\": \"concert\",\r\n    \"colorCode\": \"ABBBBA\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

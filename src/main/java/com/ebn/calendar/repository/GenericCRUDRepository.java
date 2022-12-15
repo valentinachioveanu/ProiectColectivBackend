@@ -56,19 +56,21 @@ public class GenericCRUDRepository<E extends Identifiable<ID>, ID> {
         return toReturn;
     }
 
-    //returns the old entity if succeeded or null if failed
+    //returns the new entity if succeeded or null if failed
     public E update(E entity) {
         E toReturn = null;
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = null;
             try {
-                E aux;
+                E aux; //aux will save the old entity - kept this for the sake of the older version
                 transaction = session.beginTransaction();
+
                 aux = session.get(type, entity.getIdentifier());
                 session.detach(aux);
+
                 session.merge(entity);
                 transaction.commit();
-                toReturn = aux;
+                toReturn = entity;
             } catch (RuntimeException e) {
                 e.printStackTrace();
                 if (transaction != null)

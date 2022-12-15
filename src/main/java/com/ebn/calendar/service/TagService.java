@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class TagService {
@@ -17,12 +18,12 @@ public class TagService {
         this.tagRepository = tagRepository;
     }
 
-    public Tag create(Tag tag, User user) {
+    public Tag createTagForUser(Tag tag, User user) {
         tag.setOwner(user);
         return tagRepository.create(tag);
     }
 
-    public Tag read(String id, User user) {
+    public Tag readTagForUser(String id, User user) {
         Tag result = tagRepository.read(id);
         if (result == null || !result.getOwner().equals(user)) {
             return null;
@@ -30,8 +31,8 @@ public class TagService {
         return result;
     }
 
-    public Tag update(Tag tag, User user) {
-        Tag existingTag = read(tag.getId(), user);
+    public Tag updateTagForUser(Tag tag, User user) {
+        Tag existingTag = readTagForUser(tag.getId(), user);
         if (existingTag == null) {
             return null;
         }
@@ -39,15 +40,19 @@ public class TagService {
         return tagRepository.update(tag);
     }
 
-    public Tag delete(String id, User user) {
-        Tag existingTag = read(id, user);
+    public Tag deleteTagForUser(String id, User user) {
+        Tag existingTag = readTagForUser(id, user);
         if (existingTag == null) {
             return null;
         }
         return tagRepository.delete(id);
     }
 
-    public List<Tag> readAll(User user) {
+    public List<Tag> readTagsForUser(User user) {
         return tagRepository.readUserTags(user);
+    }
+
+    public List<Tag> readTagsForUser(Set<String> tagsIds, User user) {
+        return tagRepository.readUserTags(tagsIds, user);
     }
 }

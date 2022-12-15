@@ -17,12 +17,12 @@ public class EventService {
         this.eventRepository = eventRepository;
     }
 
-    public Event create(Event event, User user) {
+    public Event createEventForUser(Event event, User user) {
         event.setOwner(user);
         return eventRepository.create(event);
     }
 
-    public Event read(String id, User user) {
+    public Event readEventForUser(String id, User user) {
         Event result = eventRepository.read(id);
         if (result == null || !result.getOwner().equals(user)) {
             return null;
@@ -30,8 +30,8 @@ public class EventService {
         return result;
     }
 
-    public Event update(Event event, User user) {
-        Event existingEvent = read(event.getId(), user);
+    public Event updateEventForUser(Event event, User user) {
+        Event existingEvent = readEventForUser(event.getId(), user);
         if (existingEvent == null) {
             return null;
         }
@@ -39,15 +39,15 @@ public class EventService {
         return eventRepository.update(event);
     }
 
-    public Event delete(String id, User user) {
-        Event existingEvent = read(id, user);
+    public Event deleteEventForUser(String id, User user) {
+        Event existingEvent = readEventForUser(id, user);
         if (existingEvent == null) {
             return null;
         }
         return eventRepository.delete(id);
     }
 
-    public List<Event> readAll(User user) {
+    public List<Event> readEventsForUser(User user) {
         return eventRepository.readUserEvents(user);
     }
 }
