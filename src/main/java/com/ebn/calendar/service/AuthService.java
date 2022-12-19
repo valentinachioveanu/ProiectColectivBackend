@@ -4,6 +4,8 @@ import com.ebn.calendar.model.dao.User;
 import com.ebn.calendar.repository.UserRepository;
 import com.ebn.calendar.security.AuthUserDetails;
 import com.ebn.calendar.security.JwtUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class AuthService {
+    protected static final Logger logger = LogManager.getLogger();
 
     private final UserRepository userRepository;
 
@@ -48,6 +51,7 @@ public class AuthService {
 
     public String authenticate(User user) {
         try {
+
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
 
@@ -61,11 +65,12 @@ public class AuthService {
                     .map(GrantedAuthority::getAuthority)
                     .collect(Collectors.toList());
             user.setRoles(roles);
-
+            logger.info("token created");
             return token;
         } catch (Exception e) {
-            return null;
+            logger.error(e);
         }
+        return null;
     }
 
     public User getRequester() {

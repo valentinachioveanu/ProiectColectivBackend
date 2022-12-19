@@ -1,5 +1,7 @@
 package com.ebn.calendar.configuration;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
@@ -9,6 +11,8 @@ import org.springframework.context.annotation.Bean;
 import java.sql.*;
 
 public class PersistenceConfiguration {
+
+    private static final Logger logger = LogManager.getLogger();
 
     private final String postgresUsername = "postgres";
 
@@ -28,10 +32,11 @@ public class PersistenceConfiguration {
                 .configure()
                 .build();
         try {
+            logger.info("session factory created");
             return new MetadataSources(registry).buildMetadata().buildSessionFactory();
         } catch (Exception e) {
             StandardServiceRegistryBuilder.destroy(registry);
-            e.printStackTrace();
+            logger.error(e);
             throw new RuntimeException(e);
         }
     }
@@ -43,8 +48,9 @@ public class PersistenceConfiguration {
             createDBStatement.execute("""
                     DROP DATABASE calendar
                     """);
+            logger.info("database dropped");
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e);
             throw new RuntimeException(e);
         }
     }
@@ -56,8 +62,9 @@ public class PersistenceConfiguration {
             createDBStatement.execute("""
                     CREATE DATABASE calendar
                     """);
+            logger.info("database created");
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e);
             throw new RuntimeException(e);
         }
     }
@@ -71,8 +78,9 @@ public class PersistenceConfiguration {
                     SELECT datname FROM pg_catalog.pg_database WHERE datname='calendar'
                     """);
             result = resultSet.next();
+            logger.info("database verified");
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e);
             throw new RuntimeException(e);
         }
         return result;

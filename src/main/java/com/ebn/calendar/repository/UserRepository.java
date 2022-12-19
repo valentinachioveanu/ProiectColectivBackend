@@ -26,8 +26,9 @@ public class UserRepository extends GenericCRUDRepository<User, String> {
                         .setParameter("username", username).getSingleResult();
                 transaction.commit();
                 toReturn = aux;
+                logger.trace("user found");
             } catch (RuntimeException e) {
-                e.printStackTrace();
+                logger.error(e);
                 if (transaction != null)
                     transaction.rollback();
             }
