@@ -30,8 +30,9 @@ public class TagRepository extends GenericCRUDRepository<Tag, String> {
                         .list();
                 transaction.commit();
                 toReturn = aux;
+                logger.trace("tags read successfully");
             } catch (RuntimeException e) {
-                e.printStackTrace();
+                logger.error(e);
                 if (transaction != null)
                     transaction.rollback();
             }
@@ -52,8 +53,9 @@ public class TagRepository extends GenericCRUDRepository<Tag, String> {
                         .list();
                 transaction.commit();
                 toReturn = aux;
+                logger.trace("tags read with ids successfully");
             } catch (RuntimeException e) {
-                e.printStackTrace();
+                logger.error(e);
                 if (transaction != null)
                     transaction.rollback();
             }

@@ -4,10 +4,14 @@ import com.ebn.calendar.model.dao.Identifiable;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class GenericCRUDRepository<E extends Identifiable<ID>, ID> {
 
     protected final SessionFactory sessionFactory;
+
+    protected static final Logger logger = LogManager.getLogger();
 
     private final Class<E> type;
 
@@ -27,8 +31,9 @@ public class GenericCRUDRepository<E extends Identifiable<ID>, ID> {
                 session.persist(entity);
                 transaction.commit();
                 toReturn = entity;
+                logger.info("entity saved successfully");
             } catch (RuntimeException e) {
-                e.printStackTrace();
+                logger.error(e);
                 if (transaction != null)
                     transaction.rollback();
             }
@@ -47,8 +52,9 @@ public class GenericCRUDRepository<E extends Identifiable<ID>, ID> {
                 aux = session.get(type, id);
                 transaction.commit();
                 toReturn = aux;
+                logger.info("entity read successfully");
             } catch (RuntimeException e) {
-                e.printStackTrace();
+                logger.error(e);
                 if (transaction != null)
                     transaction.rollback();
             }
@@ -71,8 +77,9 @@ public class GenericCRUDRepository<E extends Identifiable<ID>, ID> {
                 session.merge(entity);
                 transaction.commit();
                 toReturn = entity;
+                logger.info("entity updated successfully");
             } catch (RuntimeException e) {
-                e.printStackTrace();
+                logger.error(e);
                 if (transaction != null)
                     transaction.rollback();
             }
@@ -92,8 +99,9 @@ public class GenericCRUDRepository<E extends Identifiable<ID>, ID> {
                 session.remove(aux);
                 transaction.commit();
                 toReturn = aux;
+                logger.info("entity deleted successfully");
             } catch (RuntimeException e) {
-                e.printStackTrace();
+                logger.error(e);
                 if (transaction != null)
                     transaction.rollback();
             }
