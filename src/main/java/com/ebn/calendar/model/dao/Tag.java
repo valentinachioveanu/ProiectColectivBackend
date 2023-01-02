@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 @Entity
 @Table(name = "tags")
@@ -25,6 +26,13 @@ public class Tag implements Identifiable<String> {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade ={CascadeType.REFRESH})
+    @JoinTable(name = "event_tag",
+            joinColumns = @JoinColumn(name = "tag_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id")
+    )
+    private Set<Event> events;
 
     public Tag() {
     }
