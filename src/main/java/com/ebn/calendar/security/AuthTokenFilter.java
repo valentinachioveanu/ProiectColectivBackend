@@ -1,6 +1,8 @@
 package com.ebn.calendar.security;
 
 import com.ebn.calendar.service.AuthDetailService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +23,8 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     private final JwtUtils jwtUtils;
 
     private final AuthDetailService authDetailService;
+
+    private static final Logger logger = LogManager.getLogger();
 
     @Autowired
     public AuthTokenFilter(JwtUtils jwtUtils, AuthDetailService authDetailService) {
@@ -48,7 +52,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e);
         }
 
         filterChain.doFilter(request, response);

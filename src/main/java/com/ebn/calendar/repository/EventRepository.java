@@ -32,7 +32,6 @@ public class EventRepository extends GenericCRUDRepository<Event, String> {
                 logger.trace("read events {}", toReturn);
             } catch (RuntimeException e) {
                 logger.error(e);
-                //e.printStackTrace();
                 if (transaction != null)
                     transaction.rollback();
             }
