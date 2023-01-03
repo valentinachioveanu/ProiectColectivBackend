@@ -27,13 +27,6 @@ public class Tag implements Identifiable<String> {
     @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade ={CascadeType.REFRESH})
-    @JoinTable(name = "event_tag",
-            joinColumns = @JoinColumn(name = "tag_id"),
-            inverseJoinColumns = @JoinColumn(name = "event_id")
-    )
-    private Set<Event> events;
-
     public Tag() {
     }
 

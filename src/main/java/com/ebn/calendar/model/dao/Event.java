@@ -33,7 +33,7 @@ public class Event implements Identifiable<String> {
     @Column(name = "all_day")
     private Boolean allDay;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade ={CascadeType.REFRESH})
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "event_tag",
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id")
