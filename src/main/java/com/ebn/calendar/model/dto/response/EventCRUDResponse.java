@@ -1,6 +1,6 @@
 package com.ebn.calendar.model.dto.response;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.Set;
 
 public class EventCRUDResponse {
@@ -10,9 +10,9 @@ public class EventCRUDResponse {
 
     private String description;
 
-    private LocalDateTime startDate;
+    private Timestamp startDate;
 
-    private LocalDateTime endDate;
+    private Timestamp endDate;
 
     private Boolean allDay;
 
@@ -45,19 +45,19 @@ public class EventCRUDResponse {
         this.description = description;
     }
 
-    public LocalDateTime getStartDate() {
+    public Timestamp getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDateTime startDate) {
+    public void setStartDate(Timestamp startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDateTime getEndDate() {
+    public Timestamp getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDateTime endDate) {
+    public void setEndDate(Timestamp endDate) {
         this.endDate = endDate;
     }
 

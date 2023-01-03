@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.Check;
 import org.hibernate.annotations.GenericGenerator;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.Set;
 
 @Entity
@@ -25,10 +25,10 @@ public class Event implements Identifiable<String> {
     private String description;
 
     @Column(name = "start_date", nullable = false)
-    private LocalDateTime startDate;
+    private Timestamp startDate;
 
     @Column(name = "end_date", nullable = false)
-    private LocalDateTime endDate;
+    private Timestamp endDate;
 
     @Column(name = "all_day")
     private Boolean allDay;
@@ -68,19 +68,19 @@ public class Event implements Identifiable<String> {
         this.title = title;
     }
 
-    public LocalDateTime getStartDate() {
+    public Timestamp getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDateTime startDate) {
+    public void setStartDate(Timestamp startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDateTime getEndDate() {
+    public Timestamp getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDateTime endDate) {
+    public void setEndDate(Timestamp endDate) {
         this.endDate = endDate;
     }
 

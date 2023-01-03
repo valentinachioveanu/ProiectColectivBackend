@@ -3,7 +3,7 @@ package com.ebn.calendar.model.dto.request;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.Set;
 
 public class EventCRUDRequest {
@@ -16,10 +16,10 @@ public class EventCRUDRequest {
     private String description;
 
     @NotNull(message = "'startDate' is mandatory")
-    private LocalDateTime startDate;
+    private Timestamp startDate;
 
     @NotNull(message = "'endDate' is mandatory")
-    private LocalDateTime endDate;
+    private Timestamp endDate;
 
     private Boolean allDay;
 
@@ -42,19 +42,19 @@ public class EventCRUDRequest {
         this.description = description;
     }
 
-    public LocalDateTime getStartDate() {
+    public Timestamp getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDateTime startDate) {
+    public void setStartDate(Timestamp startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDateTime getEndDate() {
+    public Timestamp getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDateTime endDate) {
+    public void setEndDate(Timestamp endDate) {
         this.endDate = endDate;
     }
 
