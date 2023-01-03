@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.validation.constraints.Size;
-import java.util.Set;
 
 @Entity
 @Table(name = "tags")
