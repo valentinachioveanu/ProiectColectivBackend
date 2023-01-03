@@ -1,5 +1,6 @@
 package com.ebn.calendar.model.dto.request;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -7,6 +8,7 @@ import javax.validation.constraints.Size;
 public class TagCRUDRequest {
     @NotNull(message = "'name' is mandatory")
     @Size(max = 20, message = "'name' should have a length of maximum 20 character")
+    @NotEmpty(message = "'name' cannot be empty")
     private String name;
 
     @NotNull(message = "'colorCode' is mandatory")

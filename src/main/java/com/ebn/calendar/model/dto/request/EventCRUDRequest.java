@@ -1,6 +1,7 @@
 package com.ebn.calendar.model.dto.request;
 
 import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Timestamp;
@@ -9,6 +10,7 @@ import java.util.Set;
 public class EventCRUDRequest {
     @NotNull(message = "'title' is mandatory")
     @Size(max = 20, message = "'title' should have a maximum length 20 character")
+    @NotEmpty(message = "'title' cannot be empty")
     private String title;
 
     @NotNull(message = "'description' is mandatory")
