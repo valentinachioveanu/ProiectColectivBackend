@@ -5,6 +5,7 @@ import com.ebn.calendar.model.dao.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.MutationQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +17,15 @@ public class TagRepository extends GenericCRUDRepository<Tag, String> {
     @Autowired
     public TagRepository(SessionFactory sessionFactory) {
         super(sessionFactory, Tag.class);
+    }
+
+    @Override
+    public Tag delete(String id) {
+        if (!deleteEventAssociationsToTag(id)) {
+            return null;
+        }
+        logger.info("deleted all event associations to tag");
+        return super.delete(id);
     }
 
     public List<Tag> readUserTags(User user) {
@@ -61,5 +71,25 @@ public class TagRepository extends GenericCRUDRepository<Tag, String> {
             }
         }
         return toReturn;
+    }
+
+    private boolean deleteEventAssociationsToTag(String id) {
+        boolean result = false;
+        try (Session session = sessionFactory.openSession()) {
+            Transaction transaction = null;
+            try {
+                transaction = session.beginTransaction();
+                MutationQuery query = session.createNativeMutationQuery("delete from event_tag where tag_id = :id");
+                query.setParameter("id", id);
+                query.executeUpdate();
+                transaction.commit();
+                result = true;
+            } catch (RuntimeException e) {
+                logger.error(e);
+                if (transaction != null)
+                    transaction.rollback();
+            }
+        }
+        return result;
     }
 }
