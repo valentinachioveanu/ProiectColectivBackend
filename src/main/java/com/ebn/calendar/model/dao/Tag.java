@@ -7,7 +7,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "tags")
-public class Tag implements Identifiable<String> {
+public class Tag extends Identifiable<String> {
 
     @Id
     @GeneratedValue(generator = "uuid2")

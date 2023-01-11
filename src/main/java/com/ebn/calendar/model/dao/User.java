@@ -5,11 +5,10 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.validation.constraints.Size;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "users")
-public class User implements Identifiable<String> {
+public class User extends Identifiable<String> {
 
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -67,18 +66,5 @@ public class User implements Identifiable<String> {
 
     public void setRoles(List<String> roles) {
         this.roles = roles;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof User other)) {
-            return false;
-        }
-        return Objects.equals(id, other.id);
     }
 }

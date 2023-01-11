@@ -10,7 +10,7 @@ import java.util.Set;
 @Entity
 @Table(name = "events")
 @Check(constraints = "start_date <= end_date")
-public class Event implements Identifiable<String> {
+public class Event extends Identifiable<String> {
 
     @Id
     @GeneratedValue(generator = "uuid2")
