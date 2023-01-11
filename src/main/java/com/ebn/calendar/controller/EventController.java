@@ -21,7 +21,7 @@ import java.util.Set;
 
 @CrossOrigin
 @RestController
-@RequestMapping(path = "/events", produces = "application/json")
+@RequestMapping(produces = "application/json")
 public class EventController {
 
     private final ModelMapper modelMapper;
@@ -40,7 +40,7 @@ public class EventController {
         this.authService = authService;
     }
 
-    @PostMapping(path = "")
+    @PostMapping(path = "/events")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> createEventForUser(@Valid @RequestBody EventCRUDRequest request) {
         Event event = daoFromDTO(request);
@@ -64,7 +64,7 @@ public class EventController {
                 .body(dtoFromDao(result));
     }
 
-    @GetMapping(path = "/{id}")
+    @GetMapping(path = "/events/{id}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> readEventForUser(@PathVariable String id) {
         Event result = eventService.readEventForUser(id, authService.getRequester());
@@ -76,7 +76,7 @@ public class EventController {
                 .body(dtoFromDao(result));
     }
 
-    @PutMapping(path = "/{id}")
+    @PutMapping(path = "/events/{id}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> updateEventForUser(@PathVariable String id, @Valid @RequestBody EventCRUDRequest request) {
         Event event = daoFromDTO(request);
@@ -101,7 +101,7 @@ public class EventController {
                 .body(dtoFromDao(result));
     }
 
-    @DeleteMapping(path = "/{id}")
+    @DeleteMapping(path = "/events/{id}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> deleteEventForUser(@PathVariable String id) {
         Event result = eventService.deleteEventForUser(id, authService.getRequester());
@@ -113,8 +113,7 @@ public class EventController {
                 .body(dtoFromDao(result));
     }
 
-    @Deprecated
-    @GetMapping(path = "")
+    @GetMapping(path = "/events")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> readAllEventsForUser() {
         List<Event> result = eventService.readEventsForUser(authService.getRequester());
