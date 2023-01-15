@@ -17,6 +17,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -131,12 +132,22 @@ public class EventController {
     public ResponseEntity<?> filterEventsByTags(@RequestBody FilterEventsRequest filterEventsRequest) {
         User user = authService.getRequester();
         List<Tag> usersTags = tagService.readTagsForUser(user);
+        List<Tag> requestedTags = new ArrayList<>();
 
-        for(String tagId : filterEventsRequest.getTagsIds()) {
-            usersTags.removeIf(tag -> tag.getId().equals(tagId));
+        for(Tag tag : usersTags) {
+            boolean inRequestList = false;
+            for(String tagId : filterEventsRequest.getTagsIds()) {
+                if(tag.getId().equals(tagId)) {
+                    inRequestList = true;
+                }
+            }
+
+            if(inRequestList) {
+                requestedTags.add(tag);
+            }
         }
 
-        List<Event> result = eventService.readEventsByTagsAndUser(user, usersTags);
+        List<Event> result = eventService.readEventsByTagsAndUser(user, requestedTags);
         if(result == null) {
             return ResponseEntity.internalServerError()
                     .body(new MessageResponse("Error: couldn't load events"));
