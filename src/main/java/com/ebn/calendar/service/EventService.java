@@ -1,11 +1,13 @@
 package com.ebn.calendar.service;
 
 import com.ebn.calendar.model.dao.Event;
+import com.ebn.calendar.model.dao.Tag;
 import com.ebn.calendar.model.dao.User;
 import com.ebn.calendar.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -49,5 +51,10 @@ public class EventService {
 
     public List<Event> readEventsForUser(User user) {
         return eventRepository.readUserEvents(user);
+    }
+
+    public List<Event> readEventsByTagsAndUser(User user, List<Tag> tags) {
+        //TODO
+        return new ArrayList<>();
     }
 }

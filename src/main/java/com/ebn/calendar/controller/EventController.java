@@ -4,6 +4,7 @@ import com.ebn.calendar.model.dao.Event;
 import com.ebn.calendar.model.dao.Tag;
 import com.ebn.calendar.model.dao.User;
 import com.ebn.calendar.model.dto.request.EventCRUDRequest;
+import com.ebn.calendar.model.dto.request.FilterEventsRequest;
 import com.ebn.calendar.model.dto.response.EventCRUDResponse;
 import com.ebn.calendar.model.dto.response.MessageResponse;
 import com.ebn.calendar.service.AuthService;
@@ -121,6 +122,26 @@ public class EventController {
             return ResponseEntity.internalServerError()
                     .body(new MessageResponse("Error: couldn't read events"));
         }
+        return ResponseEntity.ok()
+                .body(result.stream().map(this::dtoFromDao).toList());
+    }
+
+    @PostMapping(path = "/filter-events")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> filterEventsByTags(@RequestBody FilterEventsRequest filterEventsRequest) {
+        User user = authService.getRequester();
+        List<Tag> usersTags = tagService.readTagsForUser(user);
+
+        for(String tagId : filterEventsRequest.getTagsIds()) {
+            usersTags.removeIf(tag -> tag.getId().equals(tagId));
+        }
+
+        List<Event> result = eventService.readEventsByTagsAndUser(user, usersTags);
+        if(result == null) {
+            return ResponseEntity.internalServerError()
+                    .body(new MessageResponse("Error: couldn't load events"));
+        }
+
         return ResponseEntity.ok()
                 .body(result.stream().map(this::dtoFromDao).toList());
     }
