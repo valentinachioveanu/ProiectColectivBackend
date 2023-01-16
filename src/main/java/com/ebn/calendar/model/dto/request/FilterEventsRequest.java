@@ -1,15 +1,15 @@
 package com.ebn.calendar.model.dto.request;
 
-import java.util.List;
+import java.util.Set;
 
 public class FilterEventsRequest {
-    private List<String> tagsIds;
+    private Set<String> tagsIds;
 
-    public List<String> getTagsIds() {
+    public Set<String> getTagsIds() {
         return tagsIds;
     }
 
-    public void setTagsIds(List<String> tagsIds) {
+    public void setTagsIds(Set<String> tagsIds) {
         this.tagsIds = tagsIds;
     }
 }

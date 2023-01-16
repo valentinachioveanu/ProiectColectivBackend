@@ -131,23 +131,14 @@ public class EventController {
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> filterEventsByTags(@RequestBody FilterEventsRequest filterEventsRequest) {
         User user = authService.getRequester();
-        List<Tag> usersTags = tagService.readTagsForUser(user);
-        List<Tag> requestedTags = new ArrayList<>();
+        List<Tag> requestedUserTags = tagService.readTagsForUser(filterEventsRequest.getTagsIds(), user);
 
-        for(Tag tag : usersTags) {
-            boolean inRequestList = false;
-            for(String tagId : filterEventsRequest.getTagsIds()) {
-                if(tag.getId().equals(tagId)) {
-                    inRequestList = true;
-                }
-            }
-
-            if(inRequestList) {
-                requestedTags.add(tag);
-            }
+        if(requestedUserTags == null) {
+            return ResponseEntity.internalServerError()
+                    .body(new MessageResponse("Error: couldn't load events"));
         }
 
-        List<Event> result = eventService.readEventsByTagsAndUser(user, requestedTags);
+        List<Event> result = eventService.readEventsByTagsAndUser(user, requestedUserTags);
         if(result == null) {
             return ResponseEntity.internalServerError()
                     .body(new MessageResponse("Error: couldn't load events"));
