@@ -9,7 +9,6 @@ import org.hibernate.Transaction;
 import org.hibernate.query.MutationQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.CollectionUtils;
 
 
 import java.util.ArrayList;
@@ -79,7 +78,7 @@ public class EventRepository extends GenericCRUDRepository<Event, String> {
     }
 
     public List<Event> readEventsByTag(User user, List<Tag> tags) {
-        List<Event> result = new ArrayList<>();
+        List<Event> result = null;
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = null;
             try {
@@ -90,12 +89,10 @@ public class EventRepository extends GenericCRUDRepository<Event, String> {
                         .list();
                 transaction.commit();
 
-                HashSet<Tag> comparator = new HashSet<>(tags);
-                aux.forEach(event -> {
-                    if(comparator.equals(event.getTags()))
-                        result.add(event);
-                });
-
+                aux = aux.stream()
+                        .filter(event -> event.getTags().containsAll(tags))
+                        .toList();
+                result = aux;
                 logger.trace("read events with specific tags{}", result);
             } catch (RuntimeException e) {
                 logger.error(e);

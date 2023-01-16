@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class EventService {
@@ -53,9 +52,5 @@ public class EventService {
         return eventRepository.readUserEvents(user);
     }
 
-    public List<Event> readEventsByTagsAndUser(User user, List<Tag> tags){
-        if(tags.isEmpty())
-            return null;
-        return eventRepository.readEventsByTag(user, tags);
-    }
+    public List<Event> readEventsByTagsAndUser(User user, List<Tag> tags) { return eventRepository.readEventsByTag(user, tags); }
 }
