@@ -1,6 +1,7 @@
 package com.ebn.calendar.repository;
 
 import com.ebn.calendar.model.dao.Event;
+import com.ebn.calendar.model.dao.Tag;
 import com.ebn.calendar.model.dao.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -9,6 +10,9 @@ import org.hibernate.query.MutationQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Repository
@@ -25,7 +29,7 @@ public class EventRepository extends GenericCRUDRepository<Event, String> {
             return null;
         }
         logger.info("deleted all tag associations to event");
-        if(super.delete(id)==null){
+        if (super.delete(id) == null) {
             return null;
         }
         return toBeDeleted;
@@ -64,6 +68,32 @@ public class EventRepository extends GenericCRUDRepository<Event, String> {
                 query.executeUpdate();
                 transaction.commit();
                 result = true;
+            } catch (RuntimeException e) {
+                logger.error(e);
+                if (transaction != null)
+                    transaction.rollback();
+            }
+        }
+        return result;
+    }
+
+    public List<Event> readEventsByTag(User user, List<Tag> tags) {
+        List<Event> result = null;
+        try (Session session = sessionFactory.openSession()) {
+            Transaction transaction = null;
+            try {
+                List<Event> aux;
+                transaction = session.beginTransaction();
+                aux = session.createQuery("from Event where owner = :user", Event.class)
+                        .setParameter("user", user)
+                        .list();
+                transaction.commit();
+
+                aux = aux.stream()
+                        .filter(event -> event.getTags().containsAll(tags))
+                        .toList();
+                result = aux;
+                logger.trace("read events with specific tags{}", result);
             } catch (RuntimeException e) {
                 logger.error(e);
                 if (transaction != null)

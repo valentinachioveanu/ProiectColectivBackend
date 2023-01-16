@@ -1,6 +1,7 @@
 package com.ebn.calendar.service;
 
 import com.ebn.calendar.model.dao.Event;
+import com.ebn.calendar.model.dao.Tag;
 import com.ebn.calendar.model.dao.User;
 import com.ebn.calendar.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,4 +51,6 @@ public class EventService {
     public List<Event> readEventsForUser(User user) {
         return eventRepository.readUserEvents(user);
     }
+
+    public List<Event> readEventsByTagsAndUser(User user, List<Tag> tags) { return eventRepository.readEventsByTag(user, tags); }
 }
