@@ -9,8 +9,8 @@ import org.hibernate.query.MutationQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 @Repository
 public class TagRepository extends GenericCRUDRepository<Tag, String> {
@@ -28,7 +28,7 @@ public class TagRepository extends GenericCRUDRepository<Tag, String> {
         return super.delete(id);
     }
 
-    public List<Tag> readUserTags(User user) {
+    public List<Tag> readTagsForUser(User user) {
         List<Tag> toReturn = null;
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = null;
@@ -50,7 +50,7 @@ public class TagRepository extends GenericCRUDRepository<Tag, String> {
         return toReturn;
     }
 
-    public List<Tag> readUserTags(Set<String> tagsIds, User user) {
+    public List<Tag> readTagsForUser(Collection<String> tagsIds, User user) {
         List<Tag> toReturn = null;
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = null;

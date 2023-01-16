@@ -18,7 +18,7 @@ public class PersistenceConfiguration {
 
     private final String postgresPassword = "postgres";
 
-    private final boolean dropDatabase = true;
+    private final boolean dropDatabase = false;
 
     @Bean
     SessionFactory sessionFactory() {

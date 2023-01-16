@@ -17,7 +17,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -138,7 +137,7 @@ public class EventController {
                     .body(new MessageResponse("Error: couldn't load events"));
         }
 
-        List<Event> result = eventService.readEventsByTagsAndUser(user, requestedUserTags);
+        List<Event> result = eventService.readEventsContainingAllTagsForUser(requestedUserTags, user);
         if(result == null) {
             return ResponseEntity.internalServerError()
                     .body(new MessageResponse("Error: couldn't load events"));

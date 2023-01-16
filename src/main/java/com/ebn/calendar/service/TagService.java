@@ -49,10 +49,10 @@ public class TagService {
     }
 
     public List<Tag> readTagsForUser(User user) {
-        return tagRepository.readUserTags(user);
+        return tagRepository.readTagsForUser(user);
     }
 
     public List<Tag> readTagsForUser(Set<String> tagsIds, User user) {
-        return tagRepository.readUserTags(tagsIds, user);
+        return tagRepository.readTagsForUser(tagsIds, user);
     }
 }

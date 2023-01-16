@@ -7,7 +7,7 @@ import com.ebn.calendar.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -50,8 +50,8 @@ public class EventService {
     }
 
     public List<Event> readEventsForUser(User user) {
-        return eventRepository.readUserEvents(user);
+        return eventRepository.readEventsForUser(user);
     }
 
-    public List<Event> readEventsByTagsAndUser(User user, List<Tag> tags) { return eventRepository.readEventsByTag(user, tags); }
+    public List<Event> readEventsContainingAllTagsForUser(Collection<Tag> tags, User user) { return eventRepository.readEventsContainingAllTagsForUser(tags, user); }
 }

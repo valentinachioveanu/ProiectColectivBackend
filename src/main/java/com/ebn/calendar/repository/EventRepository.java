@@ -11,8 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Collection;
 import java.util.List;
 
 @Repository
@@ -35,7 +34,7 @@ public class EventRepository extends GenericCRUDRepository<Event, String> {
         return toBeDeleted;
     }
 
-    public List<Event> readUserEvents(User user) {
+    public List<Event> readEventsForUser(User user) {
         List<Event> toReturn = null;
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = null;
@@ -57,27 +56,7 @@ public class EventRepository extends GenericCRUDRepository<Event, String> {
         return toReturn;
     }
 
-    private boolean deleteTagAssociationsToEvent(String id) {
-        boolean result = false;
-        try (Session session = sessionFactory.openSession()) {
-            Transaction transaction = null;
-            try {
-                transaction = session.beginTransaction();
-                MutationQuery query = session.createNativeMutationQuery("delete from event_tag where event_id = :id");
-                query.setParameter("id", id);
-                query.executeUpdate();
-                transaction.commit();
-                result = true;
-            } catch (RuntimeException e) {
-                logger.error(e);
-                if (transaction != null)
-                    transaction.rollback();
-            }
-        }
-        return result;
-    }
-
-    public List<Event> readEventsByTag(User user, List<Tag> tags) {
+    public List<Event> readEventsContainingAllTagsForUser(Collection<Tag> tags, User user) {
         List<Event> result = null;
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = null;
@@ -102,4 +81,25 @@ public class EventRepository extends GenericCRUDRepository<Event, String> {
         }
         return result;
     }
+
+    private boolean deleteTagAssociationsToEvent(String id) {
+        boolean result = false;
+        try (Session session = sessionFactory.openSession()) {
+            Transaction transaction = null;
+            try {
+                transaction = session.beginTransaction();
+                MutationQuery query = session.createNativeMutationQuery("delete from event_tag where event_id = :id");
+                query.setParameter("id", id);
+                query.executeUpdate();
+                transaction.commit();
+                result = true;
+            } catch (RuntimeException e) {
+                logger.error(e);
+                if (transaction != null)
+                    transaction.rollback();
+            }
+        }
+        return result;
+    }
+
 }
